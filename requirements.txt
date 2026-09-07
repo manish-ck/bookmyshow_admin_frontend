@@ -1,0 +1,30 @@
+# ==========================================
+# BookMyShow Admin Frontend Requirements
+# ==========================================
+# In Node.js, running `npm i` automatically installs all dependencies
+# defined in package.json.
+#
+# To install all dependencies at once:
+#   npm install
+#
+# Or install individual packages manually:
+#   npm install axios react react-dom react-router-dom
+#   npm install -D vite @vitejs/plugin-react eslint globals
+# ==========================================
+
+# Production Dependencies
+axios@^1.7.9
+react@^19.2.8
+react-dom@^19.2.8
+react-router-dom@^7.18.3
+
+# Development Dependencies
+vite@^8.2.2
+@vitejs/plugin-react@^6.1.0
+@types/react@^19.2.18
+@types/react-dom@^19.2.4
+eslint@^10.9.0
+eslint-plugin-react-hooks@^7.1.1
+eslint-plugin-react-refresh@^0.5.4
+globals@^17.11.0
+

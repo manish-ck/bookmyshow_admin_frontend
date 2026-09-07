@@ -58,10 +58,8 @@ function Dashboard() {
             });
         } catch (err) {
             console.error('Failed to fetch dashboard data:', err);
-            setError(
-                err.response?.data?.message ||
-                'Could not connect to backend on port 8000. Please ensure the backend server is running.'
-            );
+            const backendMsg = err.response?.data?.message || (typeof err.response?.data === 'string' ? err.response.data : null);
+            setError(backendMsg || `Backend error: ${err.message || 'Unable to connect to port 8000'}`);
         } finally {
             setLoading(false);
         }
@@ -89,26 +87,27 @@ function Dashboard() {
                 </button>
             </div>
 
-            {error && (
-                <div className="error-banner">
-                    <span>⚠️ {error}</span>
-                    <button
-                        type="button"
-                        className="btn btn-sm btn-secondary"
-                        onClick={fetchDashboardData}
-                    >
-                        Retry
-                    </button>
-                </div>
-            )}
-
             {loading ? (
                 <div className="state-container">
                     <div className="loading-spinner"></div>
                     <p>Loading platform metrics from port 8000...</p>
                 </div>
+            ) : error ? (
+                <div className="state-container">
+                    <div className="error-banner" style={{ width: '100%', maxWidth: '750px' }}>
+                        <span>⚠️ {error}</span>
+                        <button
+                            type="button"
+                            className="btn btn-sm btn-secondary"
+                            onClick={fetchDashboardData}
+                        >
+                            Retry
+                        </button>
+                    </div>
+                </div>
             ) : (
                 <div className="stats-grid">
+
                     <DashboardCard
                         title="Total Users"
                         value={data.users}

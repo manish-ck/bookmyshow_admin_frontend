@@ -19,10 +19,8 @@ function Theatres() {
             setTheatres(response.data.data || []);
         } catch (err) {
             console.error('Error fetching theatres:', err);
-            setError(
-                err.response?.data?.message ||
-                'Failed to load theatres from backend (port 8000). Please check connection.'
-            );
+            const backendMsg = err.response?.data?.message || (typeof err.response?.data === 'string' ? err.response.data : null);
+            setError(backendMsg || `Backend error: ${err.message || 'Unable to connect to port 8000'}`);
         } finally {
             setLoading(false);
         }
@@ -75,19 +73,19 @@ function Theatres() {
                 </div>
             </div>
 
-            {error && (
-                <div className="error-banner">
-                    <span>⚠️ {error}</span>
-                    <button type="button" className="btn btn-sm btn-secondary" onClick={fetchTheatres}>
-                        Retry
-                    </button>
-                </div>
-            )}
-
             {loading ? (
                 <div className="state-container">
                     <div className="loading-spinner"></div>
                     <p>Fetching theatres from port 8000...</p>
+                </div>
+            ) : error ? (
+                <div className="state-container">
+                    <div className="error-banner" style={{ width: '100%', maxWidth: '750px' }}>
+                        <span>⚠️ {error}</span>
+                        <button type="button" className="btn btn-sm btn-secondary" onClick={fetchTheatres}>
+                            Retry
+                        </button>
+                    </div>
                 </div>
             ) : theatres.length === 0 ? (
                 <div className="state-container">
@@ -98,6 +96,7 @@ function Theatres() {
                 </div>
             ) : (
                 <div className="table-container">
+
                     <table className="data-table">
                         <thead>
                             <tr>
